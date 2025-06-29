@@ -11,16 +11,19 @@ import PlaceOrder from "./Pages/PlaceOrder";
 import Orders from "./Pages/Orders";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
-import Searchbar from "./Components/Searchbar";
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/ReactToastify.css';
+// import Searchbar from "./Components/Searchbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+import SignUp from "./Pages/SignUp";
+import ScrollToTop from "./Components/ScroolToTop";
 
 function App() {
   return (
-    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-      <ToastContainer   />
+    <>
+      <ScrollToTop/>
+      <ToastContainer />
       <Navbar />
-      <Searchbar/>
+      {/* <Searchbar/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/collection" element={<Collection />} />
@@ -29,11 +32,12 @@ function App() {
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/placeorder" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
-      <Footer/>
-    </div>
+      <Footer />
+    </>
   );
 }
 

@@ -1,40 +1,39 @@
 import { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { FaUserShield } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
-
-const Login = () => {
+import axios from "axios";
+const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const loginresponse = await axios.post(
-        "http://localhost:5000/api/user/login",
+      const signupresponse = await axios.post(
+        "http://localhost:5000/api/user/register",
         {
+          name,
           email,
           password,
         }
       );
 
-      if (loginresponse) {
-        console.log(loginresponse)
-        localStorage.setItem("token", loginresponse.data.token);
-        navigate("/");
-      } else {
+      if (signupresponse) {
         navigate("/login");
+      } else {
+        navigate("/signup");
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // hide loader
+      setLoading(false);
     }
   };
   if (loading) return <Loader />;
@@ -49,11 +48,19 @@ const Login = () => {
       >
         <div className="text-center mb-6">
           <FaUserShield className="text-Black-600 text-5xl mx-auto mb-2" />
-          <h2 className="text-3xl font-extrabold text-Black-700"> Login</h2>
-          <p className="text-gray-600 text-sm">Secure access panel</p>
+          <h2 className="text-3xl font-extrabold text-Black-700"> Sign Up</h2>
+          <p className="text-gray-600 text-sm">Register in our panel</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-4">
+          <input
+            type="name"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Black-500"
+          />
           <input
             type="email"
             placeholder="Email"
@@ -74,13 +81,13 @@ const Login = () => {
             type="submit"
             className="w-full bg-white-600 text-black py-2 rounded-md font-semibold hover:bg-white-700 transition duration-300"
           >
-            Login
+            Signup
           </button>
         </form>
         <p className="text-xs text-gray-400 text-center mt-4">
           Already have an account?{" "}
           <span className="text-Black-500">
-            <Link to="/signup">Signup</Link>
+            <Link to="/login">Login</Link>
           </span>
         </p>
       </motion.div>
@@ -88,12 +95,4 @@ const Login = () => {
   );
 };
 
-export default Login;
-
-// const Login = () => {
-//   return (
-//     <div>Login</div>
-//   )
-// }
-
-// export default Login
+export default SignUp;
